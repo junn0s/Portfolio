@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko" id="top">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EH-AIoT — 태양광 기반 에너지 수집형 AIoT · 분산 연합학습</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- 공통 -->
+  <link rel="stylesheet" href="css/main.css" />
+  <!-- EH-AIoT 전용 -->
+  <link rel="stylesheet" href="css/eh-aiot.css" />
+</head>
+
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="./images/main/S-logo-transparent.png" alt="Site logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1><a href="index.html" class="brand-home">Park Junsoo</a></h1>
+          <p>AI Service Engineer</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#ops">Energy-aware FL</a>
+        <a href="#arch">Architecture</a>
+        <a href="#exp">Experiments</a>
+        <a href="#results">Results</a>
+        <a href="#role">My Role</a>
+        <a href="#refs">Refs</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="eh-hero">
+    <img src="images/eh-aiot/lights.jpg" alt="EH-AIoT hero image" class="eh-hero-img" />
+    <div class="eh-hero-overlay">
+      <div class="container eh-hero-inner">
+        <h2 class="eh-hero-title reveal">Solar-powered Edge AIoT × Federated Learning</h2>
+        <p class="eh-hero-sub reveal">시스템 수준 에너지 적응형 동작으로 <b>정전 최소화</b>와 <b>연합학습 정확도 향상</b></p>
+        <ul class="chip-list reveal">
+          <li class="chip">Energy Harvesting</li>
+          <li class="chip">Decentralized FL</li>
+          <li class="chip">Reinforcement Learning</li>
+          <li class="chip">Reservoir Sampling</li>
+          <li class="chip">Sparsification · Quantization</li>
+          <li class="chip">Raspberry Pi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <!-- ===== Overview ===== -->
+    <section id="overview" class="section">
+      <div class="container k-grid-2">
+        <div class="k-col">
+          <h3 class="k-section-title glow">프로젝트 개요</h3>
+          <p class="reveal">
+            태양광 기반 에너지 수집형(EH) 엣지 AIoT 환경에서, 기기 안정성과 연합학습(FL) 정확도를 동시에 높이기 위한
+            시스템 수준 에너지 적응형 동작을 제안하고 검증했습니다. 제안 기법은 슬롯 단위 태양에너지 예측·할당과
+            연합학습 단계의 계산·통신 에너지 조절을 결합해, 주어진 에너지 예산 내에서 학습 데이터 양과 파라미터 교환량을 최적화합니다.
+          </p>
+        </div>
+
+        <aside class="k-col reveal">
+          <div class="eh-kpi-grid">
+            <div class="eh-kpi">
+              <div class="eh-kpi-value">−53%</div>
+              <div class="eh-kpi-label">정전시간 감소</div>
+            </div>
+            <div class="eh-kpi">
+              <div class="eh-kpi-value">+35%</div>
+              <div class="eh-kpi-label">FL 정확도 향상</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== Method: Energy Harvesting side ===== -->
+    <section id="method" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">태양에너지 예측 &amp; 슬롯별 할당</h3>
+        <div class="grid-2">
+          <div class="col">
+            <ul class="k-check reveal">
+              <li><b>슬롯 기반 예측</b>: 시간 슬롯별 태양에너지 수집량을 <b>강화학습</b>으로 예측, 오차가 크면 다음 슬롯에서 <b>동적 보정</b>.</li>
+              <li><b>에너지 할당</b>: 배터리 용량과 충전량을 고려해 <b>폐기 에너지 최소화</b> &amp; <b>슬롯 간 분산 최소화</b> 목표로 에너지 배분.</li>
+              <p class="note reveal">→ 다음 섹션의 FL 단계 에너지 조절(계산·통신)과 결합되어 전체 안정성/정확도 목표를 달성.</p>
+            </ul>
+          </div>
+          <div class="col">
+            <div class="card eh-flow reveal">
+              <ol class="eh-steps">
+                <li>슬롯 t 시점의 태양광 발전량을 실시간 센싱 데이터를 기반으로 예측하여 향후 에너지 수집 가능성을 사전에 판단</li>
+                <li>t−1 에서의 실제 발전량과 예측값 간의 오차를 비교·분석하여 향후 예측 정확도를 점진적으로 보정</li>
+                <li>배터리의 잔여 용량과 충전 한계, 기기별 에너지 소비 특성을 함께 고려하여 동작 안정성을 확보</li>
+                <li>정보를 종합하여 각 슬롯별로 최적의 에너지 예산을 동적으로 산출하고, 에너지 낭비를 최소화</li>
+                <li>산출된 에너지 예산은 연합학습(FL) 동작 모듈로 전달되어 학습 주기, 통신 간격 등 주요 파라미터를 조정</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <p class="eh-cite">슬롯 기반 예측/보정 및 배분 전략, 논문 2.1절</p>
+      </div>
+    </section>
+
+    <!-- ===== Energy-aware FL Operations ===== -->
+    <section id="ops" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">에너지 적응형 연합학습 동작</h3>
+        <div class="ops-card-grid">
+          <div class="card reveal">
+            <h4 class="k-subtitle">① 계산 에너지 제어</h4>
+            <p class="note">학습 데이터 양 조절</p>
+            <p>적응형 <b>Reservoir Sampling</b>으로 대표성 유지하며 배치 데이터량을 예산 내로 조절.</p>
+          </div>
+          <div class="card reveal">
+            <h4 class="k-subtitle">② 통신 에너지 제어</h4>
+            <p class="note">파라미터 교환량 축소</p>
+            <p><b>Sparsification</b>으로 중요 업데이트만 교환, 중복 정보 제거.</p>
+          </div>
+          <div class="card reveal">
+            <h4 class="k-subtitle">③ 이중 제어</h4>
+            <p class="note">계산+통신 동시 최적화</p>
+            <p><b>Quantization</b>으로 표현 정밀도를 낮추어 연산/전송 에너지 동시 절감.</p>
+          </div>
+        </div>
+        <p class="eh-cite">계산·통신 에너지 모델 및 RS/희소화/양자화 적용, 논문 2.2절</p>
+      </div>
+    </section>
+
+    <!-- ===== Architecture ===== -->
+    <section id="arch" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">전체 아키텍처</h3>
+        <div class="k-grid-2">
+          <div class="col">
+            <ul class="k-bullets reveal">
+              <li><b>D-DML(비중앙집중형) FL</b> 토폴로지: 엣지 서버 없이 노드 간 파라미터 교환.</li>
+              <br>
+              <li>노드 내 <b>에너지 예산자</b>가 슬롯 예산을 산출 → FL 학습기/통신기에 전달.</li>
+              <br>
+              <li>노드 안정성(무정전)이 전체 FL 정확도에 긍정적 영향.</li>
+            </ul>
+          </div>
+          <div class="col">
+            <div class="eh-arch-card reveal">
+              <img src="./images/eh-aiot/아키텍쳐.png" alt="EH-AIoT Architecture Diagram" class="eh-arch-diagram" />
+              <p class="eh-arch-caption">개념도(장치 내 예산자 ↔ FL 학습/통신기 ↔ 이웃노드)</p>
+            </div>
+            <p class="eh-cite reveal">D-DML 개요 및 필요성, 논문 서론·2장. </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Experiments ===== -->
+    <section id="exp" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">실험 구성</h3>
+        <div class="card reveal">
+          <ul class="k-check">
+            <li><b>플랫폼</b>: Raspberry Pi 기반 오디오 <i>scene classification</i> 모델</li>
+            <li><b>환경</b>: 30일 시뮬레이션, 30개 노드, 실제 태양에너지 트레이스 활용</li>
+            <li><b>비교</b>: (1) 고성능 고정(항상 최대 학습), (2) 저전력 고정(항상 낮은 학습), (3) 제안기법</li>
+            <li><b>지표</b>: 총 정전시간(분), FL 정확도(%)</li>
+          </ul>
+          <p class="eh-cite">실험 설정 및 비교 기법 서술, 논문 3장</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Results ===== -->
+    <section id="results" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">결과</h3>
+
+        <!-- KPI 카드 -->
+        <div class="eh-kpi-grid reveal">
+          <div class="eh-kpi">
+            <div class="eh-kpi-value">−53%</div>
+            <div class="eh-kpi-label">정전시간 감소 (vs 최대학습)</div>
+          </div>
+          <div class="eh-kpi">
+            <div class="eh-kpi-value">+35%</div>
+            <div class="eh-kpi-label">정확도 향상 (vs 저전력고정)</div>
+          </div>
+        </div>
+
+        <!-- CSS 막대 차트 -->
+        <div class="eh-viz-wrap reveal">
+          <div class="eh-viz">
+            <h4 class="eh-viz-title">정전시간(↓)</h4>
+            <div class="eh-bars">
+              <div class="eh-bar is-base" style="--h:0.90"><span>최대학습</span></div>
+              <div class="eh-bar is-proposed" style="--h:0.42"><span>제안기법</span></div>
+            </div>
+          </div>
+          <div class="eh-viz">
+            <h4 class="eh-viz-title">FL 정확도(↑)</h4>
+            <div class="eh-bars">
+              <div class="eh-bar is-base" style="--h:0.50"><span>저전력고정</span></div>
+              <div class="eh-bar is-proposed" style="--h:0.85"><span>제안기법</span></div>
+            </div>
+          </div>
+        </div>
+
+        <p class="eh-cite">결과 — 정전시간 감소·정확도 향상 수치, 논문 3장</p>
+      </div>
+    </section>
+
+    <!-- ===== My Role ===== -->
+    <section id="role" class="section">
+      <div class="container k-grid-2 role-grid">
+        <div class="k-col reveal">
+          <h3 class="k-section-title glow">담당 역할 및 기여</h3>
+          <ul class="k-check">
+            <li>슬롯 기반 <b>태양광 예측·보정</b> 모듈 설계</li>
+            <li>에너지 예산자 ↔ FL 동작 파이프라인 연동</li>
+            <li><b>Reservoir Sampling / Sparsification / Quantization</b> 파라미터 탐색</li>
+            <li>Raspberry Pi 시뮬레이션 환경 구성 및 지표 수집</li>
+            <li>결과 시각화 및 보고서 정리</li>
+          </ul>
+        </div>
+        <aside class="k-col reveal">
+          <div class="role-card">
+            <h4 class="k-subtitle">Tech Stack</h4>
+            <ul class="chip-list">
+              <li class="chip">Python</li>
+              <li class="chip">PyTorch</li>
+              <li class="chip">Raspberry Pi</li>
+              <li class="chip">RL</li>
+              <li class="chip">FL (D-DML)</li>
+              <li class="chip">Matplotlib</li>
+              <li class="chip">Pandas</li>
+              <li class="chip">GitHub</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== References ===== -->
+    <section id="refs" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">참고문헌</h3>
+        <ol class="refs reveal">
+          <li>System-level Energy-aware Operations for the Efficient FL of the Solar-powered Edge AIoT, ACK 2024.</li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer id="contact" class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2025 Park Junsoo</p>
+      <a class="footer-link" href="https://github.com/junn0s" target="_blank" rel="noopener">
+        <img src="./images/main/github-mark.svg" alt="GitHub" class="footer-icon"> GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('is-visible')); return; }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); }});
+      }, {threshold: .25});
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>

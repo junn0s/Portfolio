@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko" id="top">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AMAZING — 생성형 AI 기반 스토리텔링 미로 탈출 게임</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <!-- 공통 -->
+  <link rel="stylesheet" href="css/main.css" />
+  <!-- AMAZING 전용 -->
+  <link rel="stylesheet" href="css/amazing.css" />
+</head>
+
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="./images/main/S-logo-transparent.png" alt="Site logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1><a href="index.html" class="brand-home">Park Junsoo</a></h1>
+          <p>AI Service Engineer</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#pipelines">Pipelines</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#role">My Role</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="k-hero">
+    <img src="images/amazing/amazing-main.png" alt="AMAZING game hero" class="k-hero-img" />
+    <div class="k-hero-overlay">
+      <div class="container hero-inner">
+        <h2 class="k-hero-title reveal">AMAZING — 생성형 AI 기반 미로 게임 서비스</h2>
+        <p class="k-hero-sub reveal">나만의 세계관, 픽셀로 그리는 모험</p>
+        <a href="#overview" class="scroll-cue" aria-label="개요로 스크롤">&#8595;</a>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ===== Overview ===== -->
+    <section id="overview" class="section k-overview">
+      <div class="container k-grid-2">
+        <div class="k-col">
+          <h3 class="k-section-title glow">프로젝트 개요</h3>
+
+          <p class="reveal">
+            Amazing은 사용자가 원하는 대로 스토리를 생성해 매번 새로운 경험을 제공하는 생성형 AI 기반 미로탈출 게임 서비스입니다.
+            사용자 입력을 기반으로 전체 스토리, NPC 대사, 퀴즈, 배경 이미지까지 동적으로 생성되며, 플레이어가 직접 세계관을 만들어가는 독창적인 인터랙티브 경험을 제공합니다.
+          </p>
+          <p class="reveal">
+            궁극적으로는 사용자가 매번 스스로 이야기를 만들어가는 즐거움을 제공하는 게임 경험을 목표로 합니다.
+          </p>
+
+          <ul class="k-bullets reveal">
+            <li>실시간 스토리 생성: 세계관과 분위기 기반으로 시나리오를 전개합니다.</li>
+            <li>NPC 상호작용: 캐릭터 대사·퀴즈·행동을 동적으로 구성합니다</li>
+            <li>픽셀 이미지 생성: 장면과 배경 이미지를 동적으로 생성합니다</li>
+            <li>매번 새로운 경험 제공: 플레이마다 다른 흐름,주제로 플레이 가능합니다</li>
+          </ul>
+
+          <div class="callout glass reveal">
+            <strong>기획 의도</strong>
+            <p>
+              “사용자가 직접 세계관을 만드는 AI 게임”이라는 아이디어에서 출발했습니다.  
+              입력에 따라 매번 다른 스토리, NPC, 대사, 배경 이미지를 통해 
+              몰입형 인터랙티브 게임 경험을 제공하고자 했습니다.
+            </p>
+          </div>
+        </div>
+
+        <figure class="k-col k-figure reveal">
+          <img src="images/amazing/미로 이미지.webp" alt="AMAZING 게임 미로 장면" />
+          <figcaption>〈그림1〉 미로 배경 이미지</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" class="section">
+      <div class="feature-container">
+        <h2 class="section-title glow">주요 기능</h2>
+
+        <!-- 카드형 갤러리 -->
+        <div class="feature-grid">
+          <figure class="feature-card reveal">
+            <img src="images/amazing/amazing-시작 화면.png" alt="시작 화면" loading="lazy">
+            <div class="feature-card-body">
+              <h4>시작·세계관 입력</h4>
+              <p>세계관/분위기/키워드/난이도 입력으로 초기 스토리 구성</p>
+            </div>
+            <figcaption class="feature-card-caption">〈그림2〉 시작 화면</figcaption>
+          </figure>
+
+          <figure class="feature-card reveal">
+            <img src="images/amazing/amazing-게임 화면.png" alt="게임 화면" loading="lazy">
+            <div class="feature-card-body">
+              <h4>동적 스토리 전개</h4>
+              <p>상태에 맞춰 스토리/선택지/다음 액션이 실시간으로 생성</p>
+            </div>
+            <figcaption class="feature-card-caption">〈그림3〉 게임 화면</figcaption>
+          </figure>
+
+          <figure class="feature-card reveal">
+            <img src="images/amazing/amazing-npc.png" alt="NPC 퀴즈" loading="lazy">
+            <div class="feature-card-body">
+              <h4>NPC·퀴즈 상호작용</h4>
+              <p>캐릭터 성향 및 역할 반영, 정답,오답 분기 및 힌트 제공</p>
+            </div>
+            <figcaption class="feature-card-caption">〈그림4〉 NPC 퀴즈</figcaption>
+          </figure>
+        </div>
+
+        <div class="feature-desc reveal">
+          <p><strong>스토리 생성:</strong> 사용자 입력(세계관/분위기/키워드/난이도)을 기반으로 전체 세계관을 생성하고, 진행 상태에 맞춰 후속 전개를 동적으로 이어갑니다.</p>
+          <p><strong>NPC·퀴즈:</strong> NPC 캐릭터별 역할/성향을 반영해 대사와 퀴즈를 구성합니다. 정답,오답 분기 및 힌트 제공 로직을 포함합니다.</p>
+          <p><strong>이미지 생성:</strong> 픽셀아트 스타일 배경/오브젝트/캐릭터 이미지를 실시간 생성하여 몰입감을 높입니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Pipelines ===== -->
+    <section id="pipelines" class="section k-pipes">
+      <div class="container">
+        <h3 class="k-section-title glow">파이프라인</h3>
+        <div class="pipe-grid">
+          <div class="k-pipe reveal">
+            <div class="k-pipe-body">
+              <h4 class="k-pipe-title">스토리 생성 파이프라인</h4>
+              <ol class="k-steps">
+                <li>입력 수집: 세계관/분위기/난이도/키워드</li>
+                <li>LangChain 체인 구성: 프롬프트 템플릿 + 메모리/컨텍스트</li>
+                <li>Pydantic + <code>with_structured_output</code> 으로 JSON 스키마 검증</li>
+                <li>스토리·NPC·퀴즈(정답,오답,힌트) 구조화 생성</li>
+                <li>예외 처리,재시도 로직 처리</li>
+                <li>JSON 스트리밍,배치 응답 반환</li>
+              </ol>
+            </div>
+          </div>
+    
+          <div class="k-pipe reveal">
+            <div class="k-pipe-body">
+              <h4 class="k-pipe-title">이미지 생성 파이프라인</h4>
+              <ol class="k-steps">
+                <li>입력: npc 대사 장면 요약 + 스타일(픽셀 아트,레트로 감성) + 이미지 해상도</li>
+                <li>프롬프트 구성: 프롬프트(로우 폴리,픽셀화,도트 감도) 주입</li>
+                <li>DALL·E 3 API 호출을 통해 이미지 URL 생성</li>
+                <li>캐싱,리사이징,폴백 처리</li>
+                <li>클라이언트로 이미지 전달 및 스토리 전환</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Architecture ===== -->
+    <section id="architecture" class="section k-arch">
+      <div class="container">
+        <h3 class="k-section-title glow">전체 서비스 아키텍처</h3>
+      </div>
+      <figure class="k-arch-figure reveal">
+        <img src="images/amazing/amazing-아키텍쳐.png" alt="AMAZING 전체 서비스 아키텍처" />
+        <figcaption>〈그림5〉 서비스 아키텍처</figcaption>
+      </figure>
+    </section>
+
+    <!-- ===== My Role ===== -->
+    <section id="role" class="section k-role">
+      <div class="container k-grid-2 role-grid">
+        <div class="k-col reveal">
+          <h3 class="k-section-title glow">담당 역할 및 기여</h3>
+          <ul class="k-check">
+            <li><strong>FastAPI 기반 RESTful API 서버 설계·구현</strong><br>엔드포인트/스키마/비동기 처리 설계 및 구현</li>
+            <li><strong>LangChain 기반 LLM 응답 구성</strong><br>세계관/분위기 입력 시 스토리/퀘스트 흐름, NPC 대사/퀴즈 자동 생성 구현</li>
+            <li><strong>픽셀 스타일 이미지 생성 파이프라인</strong><br>DALL·E 3 API를 통한 이미지 생성, 프롬프트 가이드 및 후처리 구현</li>
+            <li><strong>구조화 출력/예외 처리</strong><br>Pydantic + <code>with_structured_output</code> 으로 스키마 검증, 예외 처리 로직 구현</li>
+            <li><strong>아키텍처 간소화</strong><br>초기 Spring 중계 서버 제거 후 AI 서버 단독 운영 구조로 통합</li>
+          </ul>
+        </div>
+
+        <aside class="k-col role-aside sticky reveal">
+          <h4 class="k-subtitle">Tech Stack</h4>
+          <ul class="chip-list">
+            <li class="chip">FastAPI</li>
+            <li class="chip">Python</li>
+            <li class="chip">LangChain</li>
+            <li class="chip">GPT-4o mini</li>
+            <li class="chip">DALL·E 3</li>
+            <li class="chip">Pydantic</li>
+            <li class="chip">Uvicorn</li>
+            <li class="chip">AWS</li>
+            <li class="chip">GitHub</li>
+          </ul>
+
+          <figure class="k-arch-figure techstack-img">
+            <img src="images/amazing/amazing-기술 스택.png" alt="AMAZING 기술 스택" />
+            <figcaption>〈그림6〉 기술 스택</figcaption>
+          </figure>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer id="contact" class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2025 Park Junsoo</p>
+      <a class="footer-link" href="https://github.com/junn0s" target="_blank" rel="noopener">
+        <img src="./images/main/github-mark.svg" alt="GitHub" class="footer-icon"> GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible')); return;
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('is-visible');}
+        });
+      }, {threshold: .35});
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>

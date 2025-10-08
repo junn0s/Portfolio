@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko" id="top">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CNN Classifier — 과일·채소 이미지 분류용 CNN 모델 학습 및 비교</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <!-- CNN 전용 -->
+  <link rel="stylesheet" href="css/cnn.css" />
+  <link rel="stylesheet" href="css/cnn-charts.css" />
+</head>
+
+<body>
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="./images/main/S-logo-transparent.png" alt="Site logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1><a href="index.html" class="brand-home">Park Junsoo</a></h1>
+          <p>AI Service Engineer</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#roles">Role</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#models">Models</a>
+        <a href="#training">Training</a>
+        <a href="#appendix">DB & Viz</a>
+        <a href="#results">Results</a>
+        <a href="#troubleshooting">T/S</a>
+        <a href="#retrospective">Retro</a>
+        <a href="#stack">Stack</a>
+        <a href="#references">Refs</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="cnn-hero">
+    <div class="container hero-inner">
+      <h2 class="hero-title reveal">CNN Classifier</h2>
+      <p class="hero-sub reveal">과일·채소 이미지 분류용 CNN 모델 학습 및 비교 프로젝트</p>
+      <ul class="meta chip-list reveal">
+        <li class="chip">PyTorch</li>
+        <li class="chip">A100 GPU</li>
+        <li class="chip">Aiven MySQL</li>
+        <li class="chip">Streamlit</li>
+      </ul>
+    </div>
+  </section>
+
+  <main>
+    <!-- ===== Overview ===== -->
+    <section id="overview" class="section">
+      <div class="container grid-2">
+        <div class="col">
+          <h3 class="k-section-title glow">프로젝트 개요</h3>
+          <p class="reveal">
+            36가지 과일 및 채소 이미지 분류기를 만들기 위해 
+            <strong>SimpleCNN, VGG16, ResNet50, MobileNetV2, ShuffleNetV2</strong> 
+            등 다양한 CNN 모델을 학습 및 비교한 개인 프로젝트입니다.
+            정확도와 연산 효율을 고려해 최적의 모델을 선정했으며, 효율적인 CNN 모델 학습 및 선정으로 다품종 농산물 분류 정확도와 처리 효율을 극대화했습니다.
+            이를 통해 사용자가 농산물 종류를 직접 입력하지 않아도 이미지를 자동으로 인식하여 요리 레시피 추천과 같은 응용 서비스의 편의성을 높이는 것을 목표로 했습니다.
+          </p>
+          <ul class="k-bullets reveal">
+            <li>PyTorch 기반 학습 파이프라인 구축 및 하이퍼파라미터 튜닝</li>
+            <li>Aiven MySQL 연동으로 학습 로그 자동 저장</li>
+            <li>Streamlit 대시보드로 실시간 시각화</li>
+          </ul>
+        </div>
+
+        <aside class="col">
+          <div class="card stat reveal">
+            <h4>주요 성과</h4>
+            <ul class="k-check">
+              <li><b>MobileNetV2</b> 검증 정확도 <b>97.21%</b> 달성</li>
+              <li>Early Stopping으로 학습 시간 <b>20%</b> 절감</li>
+              <li>데이터 증강으로 테스트 정확도 <b>+7%</b></li>
+              <li>로그 저장·시각화 <b>100% 자동화</b></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== Stack / Roles ===== -->
+    <section id="roles" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">프로젝트 수행 과정</h3>
+        <ul class="k-check reveal">
+          <li>다양한 CNN 모델을 활용한 다품종 농산물 분류 시스템 구현</li>
+          <li>학습 파이프라인 구축 및 튜닝 (Early Stopping, Optimizer, Scheduler 등)</li>
+          <li>데이터 증강(크기/회전/색상 변화 등)으로 일반화 성능 향상</li>
+          <li>Aiven MySQL에 학습 로그 자동 저장 &amp; Streamlit 대시보드 구현</li>
+          <li>모델별 학습/검증/테스트 성능 비교 및 예측 결과 시각화</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Dataset ===== -->
+    <section id="dataset" class="section">
+      <div class="container grid-2 dataset-grid">
+        <!-- 좌측: 텍스트 컬럼 -->
+        <div class="col">
+          <h3 class="k-section-title glow">데이터셋</h3>
+          <p class="reveal">
+            Kaggle의 <em>Fruits and Vegetables Image Recognition Dataset</em>을 사용했습니다. 총 36가지 과일 및 채소 품목으로 구성되어 있으며, 각 품목은 다양한 배경·조명 조건에서 촬영된 실제 사진과 그림으로 이루어져 있습니다.
+            원본 기준 3,825장(JPG 3,535장, PNG 223장, JPEG 67장)의 이미지를 포함하지만, 일부 이미지는 저작권 이슈로 인해 제외되어 실제 학습에 활용된 수량은 품목별로 다소 상이합니다.
+          </p>
+          <p class="reveal">
+            이미지는 각기 다른 해상도와 크기를 가지며, 이러한 다양성은 현실적인 환경에서의 분류 성능을 높이는 데 도움을 주는 동시에, 모델의 일반화 성능 향상을 위한 데이터 다양성을 확보할 수 있게 합니다.
+            다만 대규모(ImageNet) 대비 적은 데이터 수로 인해 과적합 가능성이 존재하여, 리사이징,데이터 증강 등 전처리 과정을 적용하여 학습 효율을 개선했습니다.
+          </p>
+        </div>
+    
+        <!-- 우측: 그림 컬럼 -->
+        <figure class="col figure dataset-figure reveal">
+          <img src="images/cnn/데이터셋.png" alt="데이터셋 샘플 이미지" loading="lazy">
+          <figcaption>Figure 1. 데이터셋 샘플</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Models ===== -->
+    <section id="models" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">모델 구성</h3>
+
+        <div class="card-grid">
+          <article class="model-card reveal">
+            <h4>SimpleCNN</h4>
+            <p>간단한 5층 CNN (Conv×3 + FC×2). 소규모 데이터에서 과적합 억제에 유리.</p>
+            <ul class="meta">
+              <li class="chip soft">~4M params</li>
+              <li class="chip soft">~185M MACs</li>
+            </ul>
+          </article>
+
+          <article class="model-card reveal">
+            <h4>VGG16</h4>
+            <p>3×3 커널을 깊게 쌓은 구조로 세밀한 특징 추출에 강점. 데이터 부족 시 과적합 위험 높음.</p>
+            <ul class="meta">
+              <li class="chip soft">~138M params</li>
+              <li class="chip soft">~15,300M MACs</li>
+            </ul>
+          </article>
+
+          <article class="model-card reveal">
+            <h4>ResNet50</h4>
+            <p>Residual connection으로 기울기 소실 완화. 증강으로 일반화 향상.</p>
+            <ul class="meta">
+              <li class="chip soft">~25.6M params</li>
+              <li class="chip soft">~4,100M MACs</li>
+            </ul>
+          </article>
+
+          <article class="model-card reveal">
+            <h4>MobileNetV2</h4>
+            <p>경량·고효율 구조로 제한적 자원에서도 높은 정확도.</p>
+            <ul class="meta">
+              <li class="chip soft">~3.4M params</li>
+              <li class="chip soft">~465M MACs</li>
+            </ul>
+          </article>
+
+          <article class="model-card reveal">
+            <h4>ShuffleNetV2 (1.0)</h4>
+            <p>매우 경량 구조로 모바일 환경 적합. 표현력은 상대적으로 제한.</p>
+            <ul class="meta">
+              <li class="chip soft">~2.3M params</li>
+              <li class="chip soft">~62M MACs</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- 모델 비교 차트 -->
+        <!-- Figure 1. 파라미터 비교 -->
+        <div class="viz-card" id="chart-params">
+          <h4 class="viz-title">
+            모델 파라미터 비교 <span class="viz-sub">(log scale, 단위: M)</span>
+          </h4>
+
+          <div class="viz-chart">
+            <div class="viz-bars">
+              <div class="viz-bar viz-teal  viz-anim" style="--h:0.407"><span class="viz-label">simpleCNN</span></div>
+              <div class="viz-bar viz-teal  viz-anim" style="--h:1.000"><span class="viz-label">VGG16</span></div>
+              <div class="viz-bar viz-teal  viz-anim" style="--h:0.688"><span class="viz-label">ResNet50</span></div>
+              <div class="viz-bar viz-teal  viz-anim" style="--h:0.360"><span class="viz-label">MobileNetV2</span></div>
+              <div class="viz-bar viz-teal  viz-anim" style="--h:0.260"><span class="viz-label">ShuffleNetV2</span></div>
+            </div>
+            <div class="viz-yticks"><span>100</span><span>10</span><span>1</span></div>
+          </div>
+
+          <p class="viz-cap">Figure 2. 각 모델 파라미터 비교 <small>(로그 스케일)</small></p>
+        </div>
+
+        <!-- Figure 2. 연산량 비교 -->
+        <div class="viz-card" id="chart-macs">
+          <h4 class="viz-title">
+            모델 연산량 비교 <span class="viz-sub">(log scale, 단위: M)</span>
+          </h4>
+
+          <div class="viz-chart">
+            <div class="viz-bars">
+              <div class="viz-bar viz-green viz-anim" style="--h:0.487"><span class="viz-label">simpleCNN</span></div>
+              <div class="viz-bar viz-green viz-anim" style="--h:1.000"><span class="viz-label">VGG16</span></div>
+              <div class="viz-bar viz-green viz-anim" style="--h:0.792"><span class="viz-label">ResNet50</span></div>
+              <div class="viz-bar viz-green viz-anim" style="--h:0.620"><span class="viz-label">MobileNetV2</span></div>
+              <div class="viz-bar viz-green viz-anim" style="--h:0.430"><span class="viz-label">ShuffleNetV2</span></div>
+            </div>
+            <!-- 참고 눈금 표기 (선택) -->
+            <div class="viz-yticks"><span>10k</span><span>100</span><span>1</span></div>
+          </div>
+
+          <p class="viz-cap">Figure 3. 각 모델 연산량 비교 <small>(로그 스케일)</small></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Training ===== -->
+    <section id="training" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">학습</h3>
+        <div class="grid-2 reveal">
+          <div class="col">
+            <h4 class="k-subtitle">환경 &amp; 공통 설정</h4>
+            <ul class="k-bullets">
+              <li>GPU: A100</li>
+              <li>손실: CrossEntropyLoss, Optimizer: Adam</li>
+              <li>학습률 및 배치 사이즈: lr=0.001, batch=32 (모델별 변형)</li>
+              <li>Early Stopping 및 Scheduler 적용(모델별)</li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4 class="k-subtitle">모델별 세부</h4>
+            <ul class="k-bullets">
+              <li><b>SimpleCNN</b>: (180×180) 리사이즈, 25 epochs</li>
+              <li><b>VGG16</b>: (224×224), ES(patience=3), 20→10 epochs</li>
+              <li><b>ResNet50</b>: 강한 증강, 12 epochs, weight_decay=1e-5</li>
+              <li><b>MobileNetV2</b>: (224×224), batch=64, 13 epochs</li>
+              <li><b>ShuffleNetV2</b>: (224×224), batch=64, ES(p=5), 50→47 epochs</li>
+            </ul>
+          </div>
+        </div>
+
+        <details class="card code-block reveal">
+          <summary>SimpleCNN 코드 예시</summary>
+            <pre><code>
+              import os
+              import torch
+              import torch.nn as nn
+              import torch.optim as optim
+              import torchvision.transforms as transforms
+              import matplotlib.pyplot as plt
+              import numpy as np
+              from torch.utils.data import DataLoader, Dataset
+              from torchvision.datasets import ImageFolder
+              from torchvision.models import vgg16, resnet50, mobilenet_v2, shufflenet_v2_x1_0
+              from PIL import Image
+              
+              # 구글 코랩에서 데이터셋 다운로드 및 준비
+              from google.colab import files
+              files.upload()  # 'kaggle.json' 파일 업로드
+              !mkdir -p ~/.kaggle
+              !cp kaggle.json ~/.kaggle/
+              !chmod 600 ~/.kaggle/kaggle.json
+              
+              # 데이터셋 다운로드 및 압축 해제
+              !kaggle datasets download -d kritikseth/fruit-and-vegetable-image-recognition
+              !unzip fruit-and-vegetable-image-recognition.zip -d fruit-and-vegetable-image
+              
+              # 데이터 경로 설정
+              data_train_path = "/content/fruit-and-vegetable-image/train"
+              data_test_path = "/content/fruit-and-vegetable-image/test"
+              data_val_path = "/content/fruit-and-vegetable-image/validation"
+              
+              # 전처리 설정
+              img_width, img_height = 180, 180
+              batch_size = 32
+              transform = transforms.Compose([
+                  transforms.Resize((img_width, img_height)),
+                  transforms.ToTensor(),
+              ])
+              
+              # 데이터셋 로드
+              train_dataset = ImageFolder(root=data_train_path, transform=transform)
+              val_dataset = ImageFolder(root=data_val_path, transform=transform)
+              test_dataset = ImageFolder(root=data_test_path, transform=transform)
+              
+              # DataLoader
+              train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+              val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
+              test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
+              class_names = train_dataset.classes
+              
+              
+              # CNN 모델 정의
+              class CNNModel(nn.Module):
+                  def __init__(self, num_classes):
+                      super(CNNModel, self).__init__()
+                      self.conv1 = nn.Conv2d(3, 16, 3, padding=1)
+                      self.pool = nn.MaxPool2d(2, 2)
+                      self.conv2 = nn.Conv2d(16, 32, 3, padding=1)
+                      self.conv3 = nn.Conv2d(32, 64, 3, padding=1)
+                      self.flatten = nn.Flatten()
+                      self.dropout = nn.Dropout(0.2)
+                      self.fc1 = nn.Linear(64 * (img_width // 8) * (img_height // 8), 128)
+                      self.fc2 = nn.Linear(128, num_classes)
+                  def forward(self, x):
+                      x = self.pool(torch.relu(self.conv1(x)))
+                      x = self.pool(torch.relu(self.conv2(x)))
+                      x = self.pool(torch.relu(self.conv3(x)))
+                      x = self.flatten(x)
+                      x = self.dropout(x)
+                      x = torch.relu(self.fc1(x))
+                      return self.fc2(x)
+              
+              # 학습 설정
+              device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+              model = CNNModel(num_classes=len(class_names)).to(device)
+              criterion = nn.CrossEntropyLoss()
+              optimizer = optim.Adam(model.parameters(), lr=0.001)
+              
+              # 학습 함수
+              def train_model(model, train_loader, val_loader, criterion, optimizer, epochs=25):
+                  train_acc, val_acc, train_loss, val_loss = [], [], [], []
+                  for epoch in range(epochs):
+                      model.train()
+                      running_loss, correct, total = 0.0, 0, 0
+                      for images, labels in train_loader:
+                          images, labels = images.to(device), labels.to(device)
+                          optimizer.zero_grad()
+                          outputs = model(images)
+                          loss = criterion(outputs, labels)
+                          loss.backward()
+                          optimizer.step()
+                          running_loss += loss.item()
+                          _, predicted = torch.max(outputs, 1)
+                          correct += (predicted == labels).sum().item()
+                          total += labels.size(0)
+                      train_acc.append(100 * correct / total)
+                      train_loss.append(running_loss / len(train_loader))
+              
+                      # 검증
+                      model.eval()
+                      correct, total, val_running_loss = 0, 0, 0.0
+                      with torch.no_grad():
+                          for images, labels in val_loader:
+                              images, labels = images.to(device), labels.to(device)
+                              outputs = model(images)
+                              loss = criterion(outputs, labels)
+                              val_running_loss += loss.item()
+                              _, predicted = torch.max(outputs, 1)
+                              correct += (predicted == labels).sum().item()
+                              total += labels.size(0)
+                      val_acc.append(100 * correct / total)
+                      val_loss.append(val_running_loss / len(val_loader))
+                      print(f"Epoch [{epoch+1}/{epochs}] - Loss: {train_loss[-1]:.4f}, Val Acc: {val_acc[-1]:.2f}%")
+              
+                  return train_acc, val_acc, train_loss, val_loss
+              
+              
+              # 학습 및 결과 시각화
+              epochs = 25
+              train_acc, val_acc, train_loss, val_loss = train_model(model, train_loader, val_loader, criterion, optimizer, epochs)
+              
+              plt.figure(figsize=(8, 8))
+              plt.subplot(2, 2, 1); plt.plot(train_acc); plt.plot(val_acc); plt.title("Accuracy")
+              plt.subplot(2, 2, 2); plt.plot(train_loss); plt.plot(val_loss); plt.title("Loss")
+              plt.show()
+              
+              # 테스트 평가
+              def evaluate_model(model, test_loader, criterion):
+                  model.eval()
+                  correct, total, test_loss = 0, 0, 0.0
+                  with torch.no_grad():
+                      for images, labels in test_loader:
+                          images, labels = images.to(device), labels.to(device)
+                          outputs = model(images)
+                          loss = criterion(outputs, labels)
+                          test_loss += loss.item()
+                          _, predicted = torch.max(outputs, 1)
+                          correct += (predicted == labels).sum().item()
+                          total += labels.size(0)
+                  test_acc = 100 * correct / total
+                  print(f"Test Accuracy: {test_acc:.2f}%")
+                  return test_acc
+              
+              # 개별 이미지 예측
+              def predict_image(image_path, model):
+                  model.eval()
+                  transform = transforms.Compose([
+                      transforms.Resize((img_width, img_height)),
+                      transforms.ToTensor(),
+                  ])
+                  image = Image.open(image_path).convert("RGB")
+                  image = transform(image).unsqueeze(0).to(device)
+                  with torch.no_grad():
+                      outputs = model(image)
+                      _, predicted = torch.max(outputs, 1)
+                  return class_names[predicted.item()]
+            </code></pre>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== Appendix ===== -->
+    <section id="appendix" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">DB 연동 &amp; 로그 시각화</h3>
+
+        <div class="grid-2">
+          <div class="col">
+            <div class="card reveal">
+              <h4 class="k-subtitle">Aiven MySQL 로그 스키마</h4>
+              <pre class="schema"><code>epoch INT, start_time DATETIME, end_time DATETIME,
+train_loss FLOAT, train_accuracy FLOAT,
+val_loss FLOAT, val_accuracy FLOAT, early_stop BOOLEAN</code></pre>
+              <p class="note">학습 루프에서 insert_training_log()로 실시간 저장.</p>
+            </div>
+          </div>
+          <div class="col">
+            <figure class="figure reveal">
+              <img src="images/cnn/dbeaver.png" alt="DBeaver를 통한 학습 로그 확인 화면" />
+              <figcaption>Figure 5. DBeaver 학습 로그 연동</figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <figure class="col figure reveal">
+            <img src="images/cnn/mobilenet-streamlit.png" alt="Streamlit 대시보드 예시 1" />
+            <figcaption>Figure 6. Streamlit 대시보드 — MobileNetV2</figcaption>
+          </figure>
+          <figure class="col figure reveal">
+            <img src="images/cnn/shufflenet-streamlit.png" alt="Streamlit 대시보드 예시 2" />
+            <figcaption>Figure 7. Streamlit 대시보드 — ShuffleNetV2</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Results ===== -->
+    <section id="results" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">결과 및 분석</h3>
+
+        <div class="card table-card reveal">
+          <h4 class="k-subtitle">정확도 비교 (Train / Val / Test)</h4>
+          <div class="table-wrap">
+            <table class="data">
+              <thead>
+                <tr>
+                  <th>Model</th><th>Train</th><th>Val</th><th>Test</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>SimpleCNN</td><td>98.62%</td><td>96.30%</td><td>95.54%</td></tr>
+                <tr><td>VGG16</td><td>96.34%</td><td>96.30%</td><td>96.38%</td></tr>
+                <tr><td>ResNet50</td><td>94.61%</td><td>94.02%</td><td>94.15%</td></tr>
+                <tr><td>MobileNetV2</td><td>99.07%</td><td>97.15%</td><td><b>97.21%</b></td></tr>
+                <tr><td>ShuffleNetV2</td><td>99.00%</td><td>96.58%</td><td>96.66%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">효율(파라미터/연산량) 대비 정확도는 MobileNetV2가 가장 우수. 경량성은 ShuffleNetV2가 최고.</p>
+        </div>
+
+        <!-- Figure 3. 테스트 정확도 -->
+        <div class="viz-card" id="chart-accuracy">
+          <h4 class="viz-title">
+            모델별 테스트 정확도 <span class="viz-sub">(%)</span>
+          </h4>
+
+          <div class="viz-chart">
+            <div class="viz-bars">
+              <div class="viz-bar viz-rose viz-anim" style="--h:0.508"><span class="viz-label">SimpleCNN</span></div>
+              <div class="viz-bar viz-rose viz-anim" style="--h:0.696"><span class="viz-label">VGG16</span></div>
+              <div class="viz-bar viz-rose viz-anim" style="--h:0.230"><span class="viz-label">ResNet50</span></div>
+              <div class="viz-bar viz-rose viz-anim" style="--h:0.882"><span class="viz-label">MobileNetV2</span></div>
+              <div class="viz-bar viz-rose viz-anim" style="--h:0.772"><span class="viz-label">ShuffleNetV2</span></div>
+            </div>
+            <div class="viz-yticks"><span>98</span><span>96.75</span><span>95.5</span><span>94.25</span><span>93</span></div>
+          </div>
+
+          <p class="viz-cap">Figure 4. 모델별 테스트 정확도 막대 차트</p>
+        </div>
+
+        <div class="card reveal">
+          <h4 class="k-subtitle">분석 요약</h4>
+          <ul class="k-bullets">
+            <li>깊은 모델(VGG16/ResNet50)은 <b>데이터 부족</b>으로 기대 대비 낮은 성능</li>
+            <li>증강/조기종료가 과적합 억제와 시간 절감에 유효</li>
+            <li>실서비스 고려 시 <b>MobileNetV2</b>가 정확도·속도의 균형 측면에서 최적</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Troubleshooting ===== -->
+    <section id="troubleshooting" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">트러블슈팅</h3>
+        <div class="card-grid">
+          <div class="card reveal">
+            <h4>1. 에폭 증가에 따른 과적합</h4>
+            <ul class="k-bullets">
+              <li>발단: 에폭 증가 시 검증 손실 상승</li>
+              <li>가설: 과도한 학습으로 인한 과적합</li>
+              <li>해결: <b>Early Stopping</b> 기법 + <b>ReduceLROnPlateau</b> 스케쥴러 적용 </li>
+              <li>결과: 학습시간 절감, 일반화 성능 강화</li>
+            </ul>
+          </div>
+          <div class="card reveal">
+            <h4>2. 데이터 다양성 부족</h4>
+            <ul class="k-bullets">
+              <li>발단: 한정된 데이터 수로 인한 성능 편차</li>
+              <li>가설: 데이터 다양성 부족으로 인한 과적합</li>
+              <li>해결: 전통적 증강 기법 + <b>Mixup</b> 기법 적용</li>
+              <li>결과: 테스트 정확도 +7%, 노이즈 저항성 개선</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Retrospective ===== -->
+    <section id="retrospective" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">프로젝트 회고 &amp; 향후 계획</h3>
+        <div class="grid-2">
+          <div class="col">
+            <h4 class="k-subtitle">회고</h4>
+            <ul class="k-check">
+              <li>데이터 전처리→모델 설계→튜닝 전 과정 직접 수행</li>
+              <li>정확도뿐 아니라 <b>과적합 방지 전략</b>의 중요성 체감</li>
+              <li>로그 100% 자동 저장 + Streamlit 으로 <b>재현 가능한 실험 관리</b></li>
+            </ul>
+          </div>
+          <div class="col">
+            <h4 class="k-subtitle">향후 적용</h4>
+            <ul class="k-bullets">
+              <li>하이퍼파라미터 탐색 자동화 도구 도입</li>
+              <li>경량화 모델 연구 및 프로덕션 배포 최적화</li>
+              <li>EfficientNet/DenseNet 등 최신 모델 추가 비교</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="stack" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">사용 기술 및 스택</h3>
+        <ul class="chip-list reveal">
+          <li class="chip">PyTorch</li>
+          <li class="chip">SimpleCNN</li>
+          <li class="chip">VGG16</li>
+          <li class="chip">ResNet50</li>
+          <li class="chip">MobileNetV2</li>
+          <li class="chip">ShuffleNetV2</li>
+          <li class="chip">Aiven MySQL</li>
+          <li class="chip">DBeaver</li>
+          <li class="chip">Streamlit</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== References ===== -->
+    <section id="references" class="section">
+      <div class="container">
+        <h3 class="k-section-title glow">참고문헌</h3>
+        <ol class="refs reveal">
+          <li><a href="https://www.kaggle.com/datasets/kritikseth/fruit-and-vegetable-image-recognition/data" target="_blank" rel="noopener">Kaggle Dataset</a></li>
+          <li><a href="https://www.kaggle.com/code/fadie1/image-classification-cnns-98-accuracy/notebook" target="_blank" rel="noopener">Kaggle Notebook (98%+)</a></li>
+          <li><a href="https://paperswithcode.com" target="_blank" rel="noopener">Hugging Face Papers</a></li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  
+
+  <!-- ===== Footer ===== -->
+  <footer id="contact" class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2025 Park Junsoo</p>
+      <a class="footer-link" href="https://github.com/junn0s" target="_blank" rel="noopener">
+        <img src="./images/main/github-mark.svg" alt="GitHub" class="footer-icon"> GitHub
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible')); return;
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('is-visible');}
+        });
+      }, {threshold: .25});
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>

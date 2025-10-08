@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ko" id="top">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KOCO — 생성형 AI 기반 코딩 테스트 학습 서비스</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+KR:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css" />
+  <!-- KOCO 전용 -->
+  <link rel="stylesheet" href="css/koco.css" />
+</head>
+
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="./images/main/S-logo-transparent.png" alt="Site logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1><a href="index.html" class="brand-home">Park Junsoo</a></h1>
+          <p>AI Service Engineer</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#pipelines">Pipelines</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#role">My Role</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section class="k-hero">
+    <img src="images/koco/koco.png" alt="KOCO hero" class="k-hero-img" />
+    <div class="k-hero-overlay">
+      <div class="container">
+        <h2 class="k-hero-title">KOCO — 코딩 역량 성장 지원 서비스</h2>
+        <p class="k-hero-sub">매일 도착하는 해설과 문제 추천으로 만드는 코테 루틴</p>
+      </div>
+    </div>
+  </section>
+
+  <main>
+
+    <!-- ===== Overview ===== -->
+    <section id="overview" class="section k-overview reveal">
+      <div class="container k-grid-2">
+        <div class="k-col">
+          <h3 class="k-section-title">서비스 개요</h3>
+          <p>
+            KOCO는 생성형 AI를 활용하여 코딩 테스트 역량 향상에 도움을 제공하는 서비스입니다.
+            오늘의 문제를 풀고 간단한 설문을 남겨 문제 해설집을 제공받고, 모르는 문제는 챗봇과 커뮤니티를 활용해 해결 가능합니다.
+            또한 사용자의 학습 현황을 추적하고 개인화된 문제 추천을 제공하여 효율적인 학습 환경을 제공합니다.
+          </p>
+          <p>
+            빠르게 생각하고, 똑똑하게 행동하는 인재를 양성하는 것이 저희 서비스의 목표입니다.
+          </p>
+          <ul class="k-bullets">
+            <li>코테 습관 형성: 매일 도착하는 해설과 문제 추천으로 루틴 구축</li>
+            <li>학습 효율 증대: 챗봇을 통한 문제 해결과 라이브 코딩 테스트 면접 연습</li>
+            <li>다각적 몰입: 코드 공유 커뮤니티와 미니게임으로 동기 강화</li>
+          </ul>
+        </div>
+        <figure class="k-col k-figure reveal">
+          <img src="images/koco/기대 효과.png" alt="기대효과 요약" />
+          <figcaption>〈그림1〉 기대효과</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Features ===== -->
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">주요 기능</h2>
+
+        <figure class="feature-sheet reveal">
+          <img src="images/koco/주요 기능.png"
+              alt="AI 문제 해설, 커뮤니티, 챗봇, 추천문제의 4개 카드가 한 장에 합쳐진 주요 기능 이미지"
+              loading="lazy">
+          <figcaption>〈그림2〉 주요 기능</figcaption>
+        </figure>
+
+        <div class="feature-desc reveal">
+          <p><strong>해설:</strong> 문제 데이터를 기반으로 AI가 문제 요약, 풀이 전략, 최적의 풀이를 생성합니다.</p>
+          <p><strong>챗봇:</strong> 이전 대화 내역과 문맥 요약문을 사용하여 대화를 이어갑니다. 각 역할별 에이전트가 상호작용하여 응답을 생성하고 스트리밍합니다.</p>
+          <p><strong>문제 추천:</strong> 사용자의 설문 데이터를 기반으로 문제를 추천합니다. 알고리즘과 문제 설명에 대해 각각 임베딩 유사도를 비교합니다.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 서브 기능 -->
+    <section id="sub-features" class="section">
+      <div class="container">
+        <h2 class="section-title reveal">서브 기능</h2>
+        <figure class="feature-sheet reveal">
+          <img src="images/koco/서브 기능.png"
+              alt="커뮤니티 알람, 설문 조사, 알고리즘 스탯, 미니 게임의 4개 카드가 한 장에 합쳐진 서브 기능 이미지"
+              loading="lazy">
+          <figcaption>〈그림3〉 서브 기능</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Pipelines ===== -->
+    <section id="pipelines" class="section k-pipes">
+      <div class="container">
+        <h3 class="k-section-title reveal">파이프라인</h3>
+
+        <!-- 해설 제공 파이프라인 -->
+        <div class="k-pipe k-swap reveal">
+          <figure class="k-figure k-art">   
+            <img src="images/koco/해설 제공.png" alt="해설 제공 파이프라인" />
+            <figcaption>〈그림4〉 해설 제공 파이프라인</figcaption>
+          </figure>
+          <div class="k-pipe-body">
+            <h4 class="k-pipe-title">해설 제공 파이프라인 <span class="tag">Explainer</span></h4>
+            <ol class="k-steps">           
+              <li>스케줄러로 문제 크롤링</li>
+              <li>Pydantic으로 스키마 검증</li>
+              <li>알고리즘 공식 문서 RAG 컨텍스트로 주입</li>
+              <li>FAISS 리트리버로 관련 문서 선별</li>
+              <li>Gemini API를 통해 구조화된 JSON 생성</li>
+              <li>백엔드 API로 전송</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- 문제 추천 파이프라인 -->
+        <div class="k-pipe reveal">
+          <figure class="k-figure k-art">  
+            <img src="images/koco/문제 추천.png" alt="문제 추천 파이프라인" />
+            <figcaption>〈그림5〉 문제 추천 파이프라인</figcaption>
+          </figure>
+          <div class="k-pipe-body">
+            <h4 class="k-pipe-title">문제 추천 파이프라인 <span class="tag">Recommender</span></h4>
+            <ol class="k-steps">
+              <li>입력: 전날 문제(2개) + 사용자 설문</li>
+              <li>난이도와 알고리즘 태그로 1차 후보 필터</li>
+              <li>앙상블 리트리버: BM25(태그/설명), FAISS(의미)</li>
+              <li>가중치 적용: 0.5 / 0.1 / 0.4</li>
+              <li>최종 랭킹: 추천 세트 4개 생성</li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Architecture ===== -->
+    <section id="architecture" class="section k-arch">
+      <div class="container">
+        <h3 class="k-section-title reveal">전체 서비스 아키텍처</h3>
+      </div>
+      <figure class="k-arch-figure reveal">
+        <img src="images/koco/아키텍쳐.png" alt="KOCO 전체 서비스 아키텍처" />
+        <figcaption>〈그림6〉 전체 서비스 아키텍처</figcaption>
+      </figure>
+    </section>
+
+    <!-- ===== My Role ===== -->
+    <section id="role" class="section k-role">
+      <div class="container k-grid-2">
+        <div class="k-col reveal">
+          <h3 class="k-section-title">담당 역할 및 기여</h3>
+          <ul class="k-check">
+            <li><strong>AI 서버 구축</strong><br>FastAPI 기반 AI 서버 구축</li>
+            <li><strong>RAG 파이프라인 설계</strong><br>LangChain 기반 체인 구성, 공식 문서 우선 검색 및 컨텍스트 주입 설계</li>
+            <li><strong>개인화 문제 추천 기능 구현</strong><br>BM25 + FAISS 앙상블, 가중치 랭킹 로직</li>
+            <li><strong>데이터 모델 & API 설계</strong><br>Pydantic 스키마, 백엔드-AI서버 API 설계</li>
+            <li><strong>운영 품질</strong><br>호출/검색 로깅, 예외/재시도, 안정화 정책 구축</li>
+          </ul>
+        </div>
+        <div class="k-col reveal">
+          <h4 class="k-subtitle">Tech Stack</h4>
+          <ul class="chip-list">
+            <li class="chip">FastAPI</li>
+            <li class="chip">Python</li>
+            <li class="chip">Pydantic</li>
+            <li class="chip">LangChain</li>
+            <li class="chip">RAG</li>
+            <li class="chip">FAISS</li>
+            <li class="chip">BM25</li>
+            <li class="chip">Prompt Eng.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer id="contact" class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2025 Park Junsoo</p>
+      <a class="footer-link" href="https://github.com/junn0s" target="_blank" rel="noopener">
+        <img src="./images/main/github-mark.svg" alt="GitHub" class="footer-icon"> GitHub
+      </a>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      const els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible')); return;
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('is-visible');}
+        });
+      }, {threshold: .35});
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>
